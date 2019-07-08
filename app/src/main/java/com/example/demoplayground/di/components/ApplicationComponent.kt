@@ -11,6 +11,10 @@ import javax.inject.Singleton
 @Component(modules = [ApplicationModule::class])
 interface ApplicationComponent {
 
+    // Provider methods
+    @ApiKey
+    fun getApiKey(): String
+
     // Inject
     fun inject(application: PlaygroundApplication)
 }
