@@ -4,7 +4,7 @@ import android.app.Application
 import com.example.demoplayground.di.qualifiers.ApiKey
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
+import io.reactivex.disposables.CompositeDisposable
 
 @Module
 class ApplicationModule(private var application: Application) {
@@ -19,4 +19,7 @@ class ApplicationModule(private var application: Application) {
     fun provideAPIKey(): String {
         return "ABC"
     }
+
+    @Provides
+    fun provideCompositeDisposable(): CompositeDisposable = CompositeDisposable()
 }
