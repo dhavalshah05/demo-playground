@@ -19,6 +19,8 @@ interface ApplicationComponent {
 
     fun getViewModelFactory(): ViewModelFactory
 
+    fun getCompositeDisposable(): CompositeDisposable
+
     // Inject
     fun inject(application: PlaygroundApplication)
 }
