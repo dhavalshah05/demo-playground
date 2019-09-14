@@ -1,10 +1,12 @@
 package com.example.demoplayground.ui.main
 
+import android.animation.AnimatorInflater
 import android.os.Bundle
 import com.example.demoplayground.R
 import com.example.demoplayground.di.components.ActivityComponent
 import com.example.demoplayground.di.qualifiers.ApiKey
 import com.example.demoplayground.ui.base.BaseActivity
+import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 class MainActivity : BaseActivity<MainViewModel>() {
@@ -26,7 +28,32 @@ class MainActivity : BaseActivity<MainViewModel>() {
     }
 
     override fun setUpView(savedInstanceState: Bundle?) {
-        // SetUp view here
+        buttonStartAnimation.setOnClickListener {
+            startTranslateAnimation()
+        }
     }
 
+    private fun startAlphaAnimation() {
+        val animator = AnimatorInflater.loadAnimator(this, R.animator.alpha)
+        animator.setTarget(buttonLogin)
+        animator.start()
+    }
+
+    private fun startRotateAnimation() {
+        val animator = AnimatorInflater.loadAnimator(this, R.animator.rotate)
+        animator.setTarget(buttonLogin)
+        animator.start()
+    }
+
+    private fun startScaleAnimation() {
+        val animator = AnimatorInflater.loadAnimator(this, R.animator.scale)
+        animator.setTarget(buttonLogin)
+        animator.start()
+    }
+
+    private fun startTranslateAnimation() {
+        val animator = AnimatorInflater.loadAnimator(this, R.animator.translate)
+        animator.setTarget(buttonLogin)
+        animator.start()
+    }
 }
