@@ -31,9 +31,8 @@ class MainActivity : BaseActivity<MainViewModel>() {
     }
 
     override fun setUpView(savedInstanceState: Bundle?) {
-        buttonLogin.visibility = View.GONE
         buttonStartAnimation.setOnClickListener {
-            startAlphaAnimation()
+            startAlphaAnimationByCode()
         }
     }
 
@@ -81,5 +80,15 @@ class MainActivity : BaseActivity<MainViewModel>() {
         val animator = AnimatorInflater.loadAnimator(this, R.animator.translate)
         animator.setTarget(buttonLogin)
         animator.start()
+    }
+
+    private fun startAlphaAnimationByCode() {
+        val animator = ObjectAnimator.ofFloat(buttonLogin,
+                "alpha",
+                0.0f, 1.0f)
+        animator.apply {
+            duration = 1000
+            start()
+        }
     }
 }
