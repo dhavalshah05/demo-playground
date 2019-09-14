@@ -1,7 +1,10 @@
 package com.example.demoplayground.ui.main
 
 import android.animation.AnimatorInflater
+import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.view.View
+import androidx.core.animation.addListener
 import com.example.demoplayground.R
 import com.example.demoplayground.di.components.ActivityComponent
 import com.example.demoplayground.di.qualifiers.ApiKey
@@ -28,14 +31,37 @@ class MainActivity : BaseActivity<MainViewModel>() {
     }
 
     override fun setUpView(savedInstanceState: Bundle?) {
+        buttonLogin.visibility = View.GONE
         buttonStartAnimation.setOnClickListener {
-            startTranslateAnimation()
+            startAlphaAnimation()
         }
     }
 
     private fun startAlphaAnimation() {
         val animator = AnimatorInflater.loadAnimator(this, R.animator.alpha)
         animator.setTarget(buttonLogin)
+
+        animator as ObjectAnimator
+
+        animator.addListener(
+                onEnd = {
+
+                },
+                onStart = {
+                    buttonLogin.visibility = View.VISIBLE
+                },
+                onRepeat = {
+
+                },
+                onCancel = {
+
+                }
+        )
+
+        animator.addUpdateListener {
+            println(it.animatedValue)
+        }
+
         animator.start()
     }
 
