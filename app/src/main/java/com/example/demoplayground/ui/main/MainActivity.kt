@@ -1,9 +1,11 @@
 package com.example.demoplayground.ui.main
 
 import android.animation.AnimatorInflater
+import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationSet
 import androidx.core.animation.addListener
 import com.example.demoplayground.R
 import com.example.demoplayground.di.components.ActivityComponent
@@ -32,7 +34,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
     override fun setUpView(savedInstanceState: Bundle?) {
         buttonStartAnimation.setOnClickListener {
-            startAlphaAnimationByCode()
+            startMultipleAnimationByCodeWithAnimationListener()
         }
     }
 
@@ -91,4 +93,66 @@ class MainActivity : BaseActivity<MainViewModel>() {
             start()
         }
     }
+
+    private fun startMultipleAnimationByCode() {
+        val rotateAnimation = ObjectAnimator.ofFloat(buttonLogin, "rotation", 0.0f, 360.0f)
+        rotateAnimation.duration = 1000
+
+        val scaleXAnimation = ObjectAnimator.ofFloat(buttonLogin, "scaleX", 1.0f, 1.5f)
+        scaleXAnimation.duration = 1000
+
+        val scaleYAnimation = ObjectAnimator.ofFloat(buttonLogin, "scaleY", 1.0f, 1.5f)
+        scaleYAnimation.duration = 1000
+
+        val scaleAnimationSet = AnimatorSet()
+        scaleAnimationSet.playTogether(scaleXAnimation, scaleYAnimation)
+
+        val rootAnimationSet = AnimatorSet()
+        rootAnimationSet.playSequentially(rotateAnimation, scaleAnimationSet)
+
+        rootAnimationSet.start()
+    }
+
+    private fun startMultipleAnimationByCodeWithChaining() {
+        val rotateAnimation = ObjectAnimator.ofFloat(buttonLogin, "rotation", 0.0f, 360.0f)
+        rotateAnimation.duration = 1000
+
+        val scaleXAnimation = ObjectAnimator.ofFloat(buttonLogin, "scaleX", 1.0f, 1.5f)
+        scaleXAnimation.duration = 1000
+
+        val scaleYAnimation = ObjectAnimator.ofFloat(buttonLogin, "scaleY", 1.0f, 1.5f)
+        scaleYAnimation.duration = 1000
+
+        val scaleAnimationSet = AnimatorSet()
+        scaleAnimationSet.play(scaleXAnimation).with(scaleYAnimation)
+
+        val rootAnimationSet = AnimatorSet()
+        rootAnimationSet.play(rotateAnimation).before(scaleAnimationSet)
+
+        rootAnimationSet.start()
+    }
+
+    private fun startMultipleAnimationByCodeWithAnimationListener() {
+        val rotateAnimation = ObjectAnimator.ofFloat(buttonLogin, "rotation", 0.0f, 360.0f)
+        rotateAnimation.duration = 5000
+
+        val scaleXAnimation = ObjectAnimator.ofFloat(buttonLogin, "scaleX", 1.0f, 1.5f)
+        scaleXAnimation.duration = 500
+
+        val scaleYAnimation = ObjectAnimator.ofFloat(buttonLogin, "scaleY", 1.0f, 1.5f)
+        scaleYAnimation.duration = 500
+
+        val scaleAnimationSet = AnimatorSet()
+        scaleAnimationSet.playTogether(scaleXAnimation, scaleYAnimation)
+
+        rotateAnimation.addUpdateListener {
+            if((it.animatedValue as Float) > 180f) {
+                scaleAnimationSet.start()
+                rotateAnimation.removeAllUpdateListeners()
+            }
+        }
+
+        rotateAnimation.start()
+    }
+
 }
