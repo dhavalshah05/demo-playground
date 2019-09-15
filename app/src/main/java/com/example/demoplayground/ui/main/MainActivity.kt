@@ -5,7 +5,7 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.View
-import android.view.animation.AnimationSet
+import android.view.animation.*
 import androidx.core.animation.addListener
 import com.example.demoplayground.R
 import com.example.demoplayground.di.components.ActivityComponent
@@ -34,7 +34,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
     override fun setUpView(savedInstanceState: Bundle?) {
         buttonStartAnimation.setOnClickListener {
-            startMultipleAnimationByCodeWithAnimationListener()
+            startAnimationWithInterpolator()
         }
     }
 
@@ -152,6 +152,13 @@ class MainActivity : BaseActivity<MainViewModel>() {
             }
         }
 
+        rotateAnimation.start()
+    }
+
+    private fun startAnimationWithInterpolator() {
+        val rotateAnimation = ObjectAnimator.ofFloat(buttonLogin, "rotation", 0.0f, 360.0f)
+        rotateAnimation.duration = 1500
+        rotateAnimation.interpolator = AccelerateInterpolator()
         rotateAnimation.start()
     }
 
